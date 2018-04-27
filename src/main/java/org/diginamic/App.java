@@ -8,8 +8,8 @@ public class App
     public static void main( String[] args )
     {
     	PizzaJdbcDao pizzaJdbcDao = new PizzaJdbcDao();
-    	Pizza pizza = new Pizza("opp", "opop", 16.0);
+    	//Pizza pizza = new Pizza("opp", "opop", 16.0);
     	//pizzaJdbcDao.saveNewPizza(pizza);
-    	pizzaJdbcDao.deletePizza("opp");
+    	//pizzaJdbcDao.deletePizza("opp");
     }
 }

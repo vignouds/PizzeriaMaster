@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -33,8 +35,23 @@ public class PizzaJdbcDao implements IPizzaDao {
 
 	@Override
 	public List<Pizza> findAllPizzas() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Pizza> pizzas = new ArrayList<Pizza>();
+		try {
+			statement = this.myConnection.createStatement();
+			ResultSet resultats = statement.executeQuery("SELECT * FROM pizzas");
+			
+			while (resultats.next()) {
+				String code = resultats.getString("code");
+				String libelle = resultats.getString("libelle");
+				Double prix = resultats.getDouble("prix");
+				pizzas.add(new Pizza(code, libelle, prix));
+			}		
+			resultats.close();
+		} catch (SQLException e) {
+			LOG.error("SQLException on findPizzaByCode");
+			e.printStackTrace();
+		}
+		return pizzas;
 	}
 
 	@Override
@@ -81,14 +98,46 @@ public class PizzaJdbcDao implements IPizzaDao {
 
 	@Override
 	public Pizza findPizzaByCode(String codePizza) {
-		// TODO Auto-generated method stub
-		return null;
+		Pizza pizza = null;
+		try {
+			PreparedStatement selPizzaByCode  = this.myConnection.prepareStatement("SELECT * FROM pizzas WHERE code=?");
+			selPizzaByCode.setString(1, codePizza);
+			ResultSet resultat = selPizzaByCode.executeQuery();
+			while (resultat.next()) {
+				String code = resultat.getString("code");
+				String libelle = resultat.getString("libelle");
+				Double prix = resultat.getDouble("prix");
+				pizza = new Pizza(code, libelle, prix);
+			}		
+			resultat.close();
+
+		} catch (SQLException e) {
+			LOG.error("SQLException on findPizzaByCode");
+			e.printStackTrace();
+		}
+		return pizza;
 	}
 
 	@Override
 	public boolean pizzaExists(String codePizza) {
-		// TODO Auto-generated method stub
-		return false;
+		Pizza pizza = null;
+		try {
+			PreparedStatement selPizzaByCode = this.myConnection.prepareStatement("SELECT * FROM pizzas WHERE code=?");
+			selPizzaByCode.setString(1, codePizza);
+			ResultSet resultat = selPizzaByCode.executeQuery();
+			while (resultat.next()) {
+				String code = resultat.getString("code");
+				String libelle = resultat.getString("libelle");
+				Double prix = resultat.getDouble("prix");
+				pizza = new Pizza(code, libelle, prix);
+			}		
+			resultat.close();
+
+		} catch (SQLException e) {
+			LOG.error("SQLException on findPizzaByCode");
+			e.printStackTrace();
+		}
+		return (pizza != null) ;
 	}
 
 }
