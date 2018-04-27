@@ -10,8 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import com.mysql.jdbc.PreparedStatement;
-
 import fr.pizzeria.model.Pizza;
 
 public class PizzaJdbcDao implements IPizzaDao {
@@ -33,24 +31,6 @@ public class PizzaJdbcDao implements IPizzaDao {
 		}
 	}
 
-	public void insertPizza() {
-		
-		try {
-			//statement = myConnection.createStatement();
-			//int nbPizzaInsere = statement.executeUpdate("INSERT INTO pizzas(code, libelle, prix) VALUES('REG','Regina',12.0)");
-			
-			PreparedStatement insertionPizza = this.myConnection.prepareStatement("INSERT INTO pizzas(code, libelle, prix) VALUES(?,?,?)");
-			insertionPizza.setString(1, "REG");
-			insertionPizza.setString(2, "Regina");
-			insertionPizza.setDouble(3, 12.0);
-			
-			insertionPizza.executeUpdate();
-		} catch (SQLException e) {
-			LOG.error("SQLException on insertPizza");
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	public List<Pizza> findAllPizzas() {
 		// TODO Auto-generated method stub
@@ -59,14 +39,32 @@ public class PizzaJdbcDao implements IPizzaDao {
 
 	@Override
 	public void saveNewPizza(Pizza pizza) {
-		// TODO Auto-generated method stub
-
+		try {
+			PreparedStatement insertionPizza = this.myConnection.prepareStatement("INSERT INTO pizzas(code, libelle, prix) VALUES(?,?,?)");
+			insertionPizza.setString(1, pizza.getCode());
+			insertionPizza.setString(2, pizza.getLibelle());
+			insertionPizza.setDouble(3, pizza.getPrix());
+			
+			insertionPizza.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error("SQLException on saveNewPizza");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void updatePizza(String codePizza, Pizza pizza) {
-		// TODO Auto-generated method stub
-
+		try {
+			PreparedStatement updatePizza = this.myConnection.prepareStatement("UPDATE pizzas SET code=?, libelle=?, prix=? WHERE code=?");
+			updatePizza.setString(1, pizza.getCode());
+			updatePizza.setString(2, pizza.getLibelle());
+			updatePizza.setDouble(3, pizza.getPrix());
+			updatePizza.setString(4, codePizza);
+			updatePizza.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error("SQLException on updatePizza");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
