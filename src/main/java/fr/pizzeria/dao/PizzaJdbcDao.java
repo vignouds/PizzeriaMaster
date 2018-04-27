@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+//import com.mysql.jdbc.PreparedStatement;
 
 import fr.pizzeria.model.Pizza;
 
@@ -17,37 +20,35 @@ public class PizzaJdbcDao implements IPizzaDao {
 	private Connection myConnection;
 	private Statement statement;
 
-	public void dbConnect() {
-
+	public PizzaJdbcDao() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-		} catch (Exception e) {
-			LOG.error("Erreur sur Class.forName");
-		}
-
-		try {
 			myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bdd_mysql", "root", "");
 		} catch (SQLException e) {
-			LOG.error("Impossible de se connecter à la BDD");
+			e.printStackTrace();
+			LOG.error("SQLException au niveau de la connexion BDD");
+		} catch (ClassNotFoundException e) {
+			LOG.error("ClassNotFoundException au niveau de la connexion BDD");
 			e.printStackTrace();
 		}
+	}
 
-		LOG.info("Connexion réussie");
+	public void insertPizza() {
 		
 		try {
-			statement = myConnection.createStatement();
+			//statement = myConnection.createStatement();
+			//int nbPizzaInsere = statement.executeUpdate("INSERT INTO pizzas(code, libelle, prix) VALUES('REG','Regina',12.0)");
+			
+			PreparedStatement insertionPizza = this.myConnection.prepareStatement("INSERT INTO pizzas(code, libelle, prix) VALUES(?,?,?)");
+			insertionPizza.setString(1, "REG");
+			insertionPizza.setString(2, "Regina");
+			insertionPizza.setDouble(3, 12.0);
+			
+			insertionPizza.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			LOG.error("SQLException on insertPizza");
 			e.printStackTrace();
 		}
-		
-		try {
-			int nbPizzaInsere = statement.executeUpdate("INSERT INTO pizzas(code, libelle, prix) VALUES('REG','Regina',12.0)");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	@Override
