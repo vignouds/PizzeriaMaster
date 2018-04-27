@@ -10,6 +10,6 @@ public class App
     	PizzaJdbcDao pizzaJdbcDao = new PizzaJdbcDao();
     	Pizza pizza = new Pizza("opp", "opop", 16.0);
     	//pizzaJdbcDao.saveNewPizza(pizza);
-    	pizzaJdbcDao.updatePizza("tot", pizza);
+    	pizzaJdbcDao.deletePizza("opp");
     }
 }

@@ -69,8 +69,14 @@ public class PizzaJdbcDao implements IPizzaDao {
 
 	@Override
 	public void deletePizza(String codePizza) {
-		// TODO Auto-generated method stub
-
+		try {
+			PreparedStatement deletePizza = this.myConnection.prepareStatement("DELETE FROM pizzas WHERE code=?");
+			deletePizza.setString(1, codePizza);
+			deletePizza.executeUpdate();
+		} catch (SQLException e) {
+			LOG.error("SQLException on deletePizza");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
