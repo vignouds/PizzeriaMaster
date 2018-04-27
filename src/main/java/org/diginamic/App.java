@@ -1,13 +1,12 @@
 package org.diginamic;
 
-/**
- * Hello world!
- *
- */
+import fr.pizzeria.dao.PizzaJdbcDao;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+    	PizzaJdbcDao pizzaJdbcDao = new PizzaJdbcDao();
+    	pizzaJdbcDao.dbConnect();
     }
 }

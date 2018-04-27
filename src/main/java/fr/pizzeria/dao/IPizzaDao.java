@@ -1,6 +1,9 @@
 package fr.pizzeria.dao;
 
+import java.sql.DriverManager;
 import java.util.List;
+
+import com.mysql.jdbc.Connection;
 
 import fr.pizzeria.model.Pizza;
 
