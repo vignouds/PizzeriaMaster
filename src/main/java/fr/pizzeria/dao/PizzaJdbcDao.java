@@ -3,9 +3,9 @@ package fr.pizzeria.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
-import org.diginamic.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +14,8 @@ import fr.pizzeria.model.Pizza;
 public class PizzaJdbcDao implements IPizzaDao {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PizzaJdbcDao.class);
+	private Connection myConnection;
+	private Statement statement;
 
 	public void dbConnect() {
 
@@ -24,13 +26,28 @@ public class PizzaJdbcDao implements IPizzaDao {
 		}
 
 		try {
-			Connection myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bdd_mysql", "root", "");
+			myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bdd_mysql", "root", "");
 		} catch (SQLException e) {
 			LOG.error("Impossible de se connecter à la BDD");
 			e.printStackTrace();
 		}
 
 		LOG.info("Connexion réussie");
+		
+		try {
+			statement = myConnection.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			int nbPizzaInsere = statement.executeUpdate("INSERT INTO pizzas(code, libelle, prix) VALUES('REG','Regina',12.0)");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
