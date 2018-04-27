@@ -62,4 +62,16 @@ public class PizzaMemDao implements IPizzaDao {
 		return false;
 	}
 
+	@Override
+	public void transcationCommit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void transcationRollback() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

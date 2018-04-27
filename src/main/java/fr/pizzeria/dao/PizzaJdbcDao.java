@@ -24,6 +24,7 @@ public class PizzaJdbcDao implements IPizzaDao {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			myConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/bdd_mysql", "root", "");
+			myConnection.setAutoCommit(false);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			LOG.error("SQLException au niveau de la connexion BDD");
@@ -33,6 +34,24 @@ public class PizzaJdbcDao implements IPizzaDao {
 		}
 	}
 
+	public void transcationCommit(){
+		try {
+			myConnection.commit();
+		} catch (SQLException e) {
+			LOG.error("SQLException on transcationCommit");
+			e.printStackTrace();
+		}
+	}
+	
+	public void transcationRollback(){
+		try {
+			myConnection.rollback();
+		} catch (SQLException e) {
+			LOG.error("SQLException on transcationCommit");
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public List<Pizza> findAllPizzas() {
 		List<Pizza> pizzas = new ArrayList<Pizza>();

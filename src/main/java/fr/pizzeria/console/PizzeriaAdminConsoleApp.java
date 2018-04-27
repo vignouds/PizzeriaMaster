@@ -3,6 +3,7 @@ package fr.pizzeria.console;
 import java.util.Scanner;
 
 import fr.pizzeria.dao.IPizzaDao;
+import fr.pizzeria.dao.PizzaJdbcDao;
 import fr.pizzeria.dao.PizzaMemDao;
 import fr.pizzeria.services.MenuService;
 import fr.pizzeria.services.MenuServiceFactory;
@@ -13,7 +14,7 @@ public class PizzeriaAdminConsoleApp {
 		
 		
 		/* Initialisation du TDB de pizzas */
-		IPizzaDao dao = new PizzaMemDao();
+		IPizzaDao dao = new PizzaJdbcDao();
 		
 		/* Initialisation du scanner */
 		Scanner scanner = new Scanner(System.in);
@@ -26,7 +27,9 @@ public class PizzeriaAdminConsoleApp {
 			println("2. Ajouter une nouvelle pizza ");
 			println("3. Mettre à jour une pizza ");
 			println("4. Supprimer une pizza ");
-			println("99. Sortir ");
+			println("5. Valider les modifications");
+			println("6. Supprimer les modifications");
+			println("99. Sortir");
 	
 			System.out.print("Veuillez choisir une option:");
 			choix = scanner.nextInt();

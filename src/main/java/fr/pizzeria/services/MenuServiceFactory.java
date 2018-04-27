@@ -12,6 +12,18 @@ public class MenuServiceFactory {
 		else if (choix==3){
 			return new ModifierPizzaService();
 		}
+		else if (choix==4){
+			return new SupprimerPizzaService();
+		}
+		else if(choix==5){
+			return new CommitService();
+		}
+		else if(choix==6){
+			return new RollbackService();
+		}
+		else if (choix==99){
+			return new AuRevoirService();
+		}
 		return null;
 	}
 }
